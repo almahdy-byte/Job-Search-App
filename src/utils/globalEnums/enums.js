@@ -42,3 +42,17 @@ export const FileType={
 }
 Object.freeze(FileType)
 
+export const JobLocation = {
+    ONSITE :'onsite',
+    REMOTELY:'remotely',
+    HYBRID:'hybrid'
+}
+
+Object.freeze(JobLocation)
+
+export const WorkingTime = {
+    PART_TIME:'half-time',
+    FULL_TIME :'full-time'
+}
+
+Object.freeze(WorkingTime)

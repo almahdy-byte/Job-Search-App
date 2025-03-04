@@ -2,6 +2,7 @@ import Joi from "joi";
 import { StatusCodes } from "http-status-codes";
 import { Gender, Roles } from "../utils/globalEnums/enums.js";
 import { asyncErrorHandler } from "../utils/errorHandlers/asyncErrorHandler.js";
+import { Types } from "mongoose";
 
 export const validation = (schema)=>{
     return (req,res,next)=>{
@@ -26,6 +27,10 @@ export const validation = (schema)=>{
 
 
 
+const idValidation =(id)=>{
+    return Types.ObjectId.isValid(id) ? true : helper.message = "Invalid ID";
+}
+
 export const generalValidation = {
     firstName : Joi.string(),
     lastName : Joi.string(),
@@ -35,5 +40,12 @@ export const generalValidation = {
     role : Joi.string().valid(...Object.values(Roles)),
     DOB:Joi.date(),
     gender:Joi.string().valid(...Object.values(Gender)),
-    code : Joi.string().length(6)
+    code : Joi.string().length(6),
+    id:Joi.custom(idValidation),
+    companyName : Joi.string(),
+    companyEmail:Joi.string().email(),
+    description:Joi.string(),
+    industry : Joi.string(),
+    numberOfEmployees : Joi.number().min(11).max(20),
+    address:Joi.string()
 }

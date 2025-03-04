@@ -4,6 +4,7 @@ import { userModel } from "../../DB/models/user.model.js";
 import { compare } from "../../utils/hash/compare.js";
 import { hash } from "../../utils/hash/hash.js";
 import cloudinary from "../../utils/multer/cloudinary.js";
+import { Roles } from "../../utils/globalEnums/enums.js";
 
 export const updateUser = async(req , res , next)=>{
     const user = req.user;
@@ -14,6 +15,7 @@ export const updateUser = async(req , res , next)=>{
     user.gender = gender || user.gender;
     user.DOB = DOB || user.DOB;
     if(phone) user.phone = phone;
+    user.updatedBy = user._id;
     await user.save();
     return res.status(StatusCodes.ACCEPTED).json({success:true , user});
 }
@@ -28,7 +30,7 @@ export const getUser = async(req , res ,next)=>{
     if(!userId) return next(new Error('userId not found' , {cause:StatusCodes.NOT_FOUND}));
     const user = await userModel
     .findOne({_id : userId , isConfirmed:true , deletedAt:null , isDeleted : false})
-    .select('firstName lastName phone profilePic coverPic')
+    .select('userName phone profilePic coverPic -_id')
     if(!user) return next(new Error('user not found' , {cause:StatusCodes.NOT_FOUND}));
     return res.status(StatusCodes.OK).json({success:true , user});
 }
@@ -46,9 +48,9 @@ export const upDatePassword = async(req , res ,next)=>{
 export const uploadProfilePic = async(req , res ,next)=>{
 const file = req.file
 const user = req.user
-if(Object.values(user.profilePic).length){
-    await cloudinary.uploader.destroy(user.profilePic.public_id)
-}
+console.log(user);
+
+
 const{secure_url , public_id} = await cloudinary.uploader.upload(file.path , {
     folder : `users/user/${user._id}/profilePic`
 });
@@ -64,9 +66,7 @@ return res.status(StatusCodes.ACCEPTED).json({success:true , user})
 export const uploadCovePic = async(req , res ,next)=>{
     const file = req.file
     const user = req.user
-    if(Object.values(user.coverPic).length){
-        await cloudinary.uploader.destroy(user.coverPic.public_id)
-    }
+
     const{secure_url , public_id} = await cloudinary.uploader.upload(file.path , {
         folder : `users/user/${user._id}/coverPic`
     });
@@ -103,9 +103,20 @@ export const deleteCoverPic = async(req , res ,next)=>{
 }
 
 export const softDelete = async(req , res , next)=>{
+const userId = req.params;
 const user = req.user;
-user.isDeleted = true ;
-user.deletedAt = Date.now()
-await user.save();
+const targetUser = await userModel.findOne({
+    _id : userId,
+    isDeleted : false,
+    deletedAt : null ,
+})
+if(!targetUser) 
+    return next(new Error('user not found' , {cause:StatusCodes.NOT_FOUND}))
+if(userId.toString() !== user._id.toString() && user.role !== Roles.ADMIN )
+    return next(new Error('you are not allowed to delete this user'))
+targetUser.isDeleted = true ;
+targetUser.deletedAt = Date.now()
+targetUser.deletedBy = user._id;
+await targetUser.save();
 return res.status(StatusCodes.ACCEPTED).json({success : true , user})
 }

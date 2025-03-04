@@ -3,7 +3,6 @@ import { Gender, OTPTypes, Providers, Roles } from "../../utils/globalEnums/enum
 import { decrypt } from "../../utils/crypt/decrypt.js";
 import { encrypt } from "../../utils/crypt/encrypt.js";
 
-
 const userSchema = new Schema({
     firstName:{
         type : String,
@@ -12,7 +11,7 @@ const userSchema = new Schema({
     lastName :{
         type:String,
         required : true
-    } , 
+    } ,
     email:{
         type:String,
         required:true,
@@ -57,7 +56,7 @@ const userSchema = new Schema({
     deletedAt:{
         type:Date
     },
-    upDatedBy:{
+    updatedBy:{
         type:Types.ObjectId,
         ref:'Users'
     },
@@ -97,27 +96,42 @@ const userSchema = new Schema({
     isDeleted:{
         type:Boolean,
         default:false
+    },
+    deletedBy:{
+        type :Types.ObjectId,
+        ref:'Users'
+    },
+    bannedBy:{
+        type :Types.ObjectId,
+        ref:'Users'
     }
+},{
+    toJSON:{virtuals : true},
+    toObject:{virtuals : true}
 })
 
-userSchema.post(/^find/ , async (user , next)=>{
+userSchema.post("find" , async (users , next)=>{
+for (const user of users) {
+        if(user && user.phone){
+        user.phone =  await decrypt(user.phone);
+    }
+}
+    next();
+})
+userSchema.post(/^(findOne|findById)/, async (user , next)=>{
     if(user && user.phone){
         user.phone =  await decrypt(user.phone);
     }
     next();
 })
-
 userSchema.pre(/^save/ , async function(next){
     if(this.isModified('phone')){
         this.phone = await encrypt(this.phone);
     }
     next();
 })
-// userSchema.pre("findOneAndUpdate" , async function(next){
-//     if(this.isModified('phone')){
-//         this.phone = await encrypt(this.phone);
-//     }
-//     next();
-// })
 
+userSchema.virtual('userName').get(function(){
+return `${this.firstName} ${this.lastName}`
+})
 export const userModel = model('Users' , userSchema);
