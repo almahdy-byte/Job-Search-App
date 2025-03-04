@@ -40,8 +40,15 @@ export const jobSchema = new Schema({
     companyId:{
         type:Types.ObjectId,
         ref:'Company'
+    },
+    deletedAt:{
+        type:Date
     }
+},{toJSON:{virtuals : true}, toObject:{virtuals:true}})
+jobSchema.virtual("Applications",{
+    ref:'App',
+    localField:"_id",
+    foreignField:"jobId"
 })
-
 
 export const jobModel = model('Jobs' , jobSchema)

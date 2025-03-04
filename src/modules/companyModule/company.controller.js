@@ -70,7 +70,6 @@ export const updateCompany =async(req , res , next)=>{
             return next(new Error('user not found' , {cause : StatusCodes.NOT_FOUND}));
         company.createdBy = targetUser._id
     }
-
     await company.save();
     return res.status(StatusCodes.ACCEPTED).json({success : true , company})
 }
@@ -89,7 +88,7 @@ export const getCompanyAndRelatedJobs = async(req , res , next)=>{
     const {companyId} = req.params;
     const company = await companyModel.findOne({
         _id : companyId , deletedAt : null , bannedAt : null
-    });
+    }).populate('Jobs')
     if(!company)
         return next(new Error('company not found' , {cause : StatusCodes.NOT_FOUND}));
     company.populate({

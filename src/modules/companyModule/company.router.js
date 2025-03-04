@@ -6,9 +6,10 @@ import { uploadFile } from "../../utils/multer/uploadFile.js";
 import * as companyServices from './company.controller.js'
 import { createCompanyValidationSchema, getCompanyAndRElatedJobsValidationSchema, updateCompanyValidationSchema } from "./company.validation.js";
 import { Router } from "express";
+import jobRouter from '../jobModule/job.router.js'
+const router = Router({mergeParams : true});
 
-const router = Router();
-
+router.use('/:companyId/job' , jobRouter)
 router.post('/',
     auth(),
     validation(createCompanyValidationSchema),
@@ -23,7 +24,7 @@ router.get('/:companyName' ,
     auth(),
     asyncErrorHandler(companyServices.getCompanyWithName)
 )
-router.get('/get-company-relatedJobs' ,
+router.get('/get-company-relatedJobs/:companyId' ,
     auth(),
     validation(getCompanyAndRElatedJobsValidationSchema),
     asyncErrorHandler(companyServices.getCompanyAndRelatedJobs)

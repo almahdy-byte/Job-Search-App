@@ -1,6 +1,6 @@
 import Joi from "joi";
 import { StatusCodes } from "http-status-codes";
-import { Gender, Roles } from "../utils/globalEnums/enums.js";
+import { Gender, JobLocation, Roles, WorkingTime } from "../utils/globalEnums/enums.js";
 import { asyncErrorHandler } from "../utils/errorHandlers/asyncErrorHandler.js";
 import { Types } from "mongoose";
 
@@ -47,5 +47,12 @@ export const generalValidation = {
     description:Joi.string(),
     industry : Joi.string(),
     numberOfEmployees : Joi.number().min(11).max(20),
-    address:Joi.string()
+    address:Joi.string(),
+    jobTitle:Joi.string(),
+    jobDescription : Joi.string(),
+    jobLocation:Joi.string().valid(...Object.values(JobLocation)),
+    seniorityLevel:Joi.string(),
+    technicalSkills : Joi.array(),
+    softSkills : Joi.array(),
+    workingTime : Joi.string().valid(...Object.values(WorkingTime))
 }

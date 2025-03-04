@@ -3,9 +3,11 @@ import { model, Schema, Types } from "mongoose";
 const appSchema = new Schema({
     jobId : {
         type : Types.ObjectId,
+        ref:"Jobs"
     },
     userId:{
-        type:Types.ObjectId
+        type:Types.ObjectId,
+        ref:'Users'
     },
     userCV:{
         secure_url:{
@@ -23,3 +25,4 @@ const appSchema = new Schema({
 
 
 export const appModel = model('App' , appSchema);
+
