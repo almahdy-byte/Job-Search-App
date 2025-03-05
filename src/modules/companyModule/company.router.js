@@ -9,7 +9,7 @@ import { Router } from "express";
 import jobRouter from '../jobModule/job.router.js'
 const router = Router({mergeParams : true});
 
-router.use('/:companyId/job' , jobRouter)
+router.use('/:companyName/job' , jobRouter)
 router.post('/',
     auth(),
     validation(createCompanyValidationSchema),
@@ -46,5 +46,10 @@ router.delete('/delete-logo/:companyId',
 router.delete('/delete-coverPic/:companyId',
     auth(),
     asyncErrorHandler(companyServices.deleteCoverPic)
+)
+
+router.delete('/:companyId' , 
+    auth(),
+    asyncErrorHandler(companyServices.softDeleteCompany)
 )
 export default router;

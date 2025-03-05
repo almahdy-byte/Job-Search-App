@@ -7,8 +7,7 @@ export const auth =()=>{
     return(asyncErrorHandler(async(req , res , next)=>{
         const authorization = req.headers['authorization'];
         const {user} = await decodeToken(authorization , tokenTypes.ACCESS, next );
-        if(!user)
-            return next(new Error('user not found' , {cause:StatusCodes.NOT_FOUND}))
+        if (!user) throw new Error('user not found', { cause: StatusCodes.NOT_FOUND });
         req.user = user;
         next()
     }))

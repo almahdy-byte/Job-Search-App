@@ -1,6 +1,8 @@
 export const Roles = {
     USER : 'user',
     ADMIN : 'admin',
+    HR:'HR',
+    OWNER:'OWNER'
 }
 Object.freeze(Roles);
 
@@ -33,12 +35,15 @@ Object.freeze(OTPTypes);
 export const subjects={
     CONFIRM_EMAIL:"Confirm Email",
     RESET_PASSWORD:"Reset Password",
+    ACCEPT_APP :'ACCEPTED',
+    REJECT_APP :'REJECTED',
 }
 Object.freeze(subjects);
 
 export const FileType={
     IMAGE:['image/apng' , 'image/jpeg' , 'image/png'],
-    VIDEO:[]
+    VIDEO:[],
+    PDF:['application/pdf']
 }
 Object.freeze(FileType)
 

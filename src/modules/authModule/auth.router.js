@@ -20,6 +20,9 @@ router.patch('/confirm-email',
 router.post('/log-in',
     validation(loginValidationSchema) , 
     asyncErrorHandler(authServices.logIn))
+router.post('/social-login',
+    asyncErrorHandler(authServices.socialLogin)
+)
 router.post('/refresh-token',
     asyncErrorHandler(authServices.refreshToken))
 router.get('/profile',

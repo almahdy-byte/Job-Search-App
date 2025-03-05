@@ -5,8 +5,7 @@ import cloudinary from "../../utils/multer/cloudinary.js";
 
 export const addCompany = async(req , res , next)=>{
     const user = req.user;
-    
-    const { companyEmail , companyName , address , numberOfEmployees , industry , description } = req.body;
+    const { companyEmail , companyName  , HRs} = req.body;
     let isExist = await companyModel.findOne({
         companyEmail
     });
@@ -17,17 +16,31 @@ export const addCompany = async(req , res , next)=>{
     });
     if(isExist)
         return next(new Error('company name already used' , {cause : StatusCodes.BAD_REQUEST}));
-    const company = await companyModel.create({
-        companyEmail , companyName , address , industry , description ,numberOfEmployees , createdBy : user._id
-    })
-console.log({company , createdBy : req.user._id});
+    user.isOwner = true;
+    if(Array.isArray(HRs) && HRs.length){
+        for (let HR of HRs) {
+            let findHR = await userModel.findOne({
+                _id : HR , deletedAt : null , bannedAt : null
+            })
+            if(!findHR)
+                return next(new Error('HR account not found' , {cause : StatusCodes.NOT_FOUND}))
+            findHR.isHr = true;
+            await findHR.save()
+        }
+    }
+    const result = await Promise.all([
+        companyModel.create({
+        ...req.body , createdBy : user._id
+        })
+        , user.save()])
 
-    return res.status(StatusCodes.ACCEPTED).json({success:true , company})
+    return res.status(StatusCodes.ACCEPTED).json({success:true , company:result[0]})
 }
 
 export const updateCompany =async(req , res , next)=>{
     const user = req.user;
     const {companyId} = req.params;
+    const {HRs} = req.body
     const company = await companyModel.findOne({
         _id : companyId,
         bannedAt : null
@@ -43,6 +56,21 @@ export const updateCompany =async(req , res , next)=>{
     company.description = req.body.description || company.description;
     company.industry = req.body.industry || company.industry;
     company.numberOfEmployees = req.body.numberOfEmployees || company.numberOfEmployees;
+    if(Array.isArray(HRs) && HRs.length){
+        const companyHRs = company.HRs.map(hr => hr.toString())
+        for (let HR of HRs) {
+            let findHR = await userModel.findOne({
+                _id : HR , deletedAt : null , bannedAt : null
+            })
+            if(!findHR)
+                return next(new Error('HR account not found' , {cause : StatusCodes.NOT_FOUND}))
+            if(companyHRs.find(e=> e === HR.toString()))
+                return next(new Error('HR works in your company' , {cause : StatusCodes.NOT_FOUND}))
+            company.HRs.push(HR)
+            findHR.isHr = true;
+            await findHR.save()
+        }
+    }
     if(req.body.companyEmail){
         let isExist = await companyModel.findOne({
             companyEmail:req.body.companyEmail
@@ -196,4 +224,38 @@ export const deleteCoverPic = async(req , res ,next)=>{
     };
     await company.save();
     return res.status(StatusCodes.ACCEPTED).json({success:true , company})
+}
+
+
+export const softDeleteCompany = async(req , res , next)=>{
+    const user = req.user;
+    const {companyId} = req.params
+    const company = await companyModel.findOne({
+        _id : companyId , deletedAt : null , bannedAt : null
+    }).populate([
+        {
+            path: 'Jobs'
+        },
+        {
+            path:'HRs'
+        }
+    ])
+    if(!company.createdBy.toString()!==user._id.toString())
+        return next('you are not allowed to delete this job')
+    if(company.HRs.length){
+        for (const HR of HRs) {
+            HR.deletedAt = Date.now()
+            await HR.save();
+        }
+    }
+
+    if(company.Jobs.length){
+        for (const job of Jobs) {
+            job.deletedAt = Date.now()
+            await job.save();
+        }
+    }
+
+    company.deletedAt = Date.now();
+    return res.status(StatusCodes.ACCEPTED).json({company})
 }

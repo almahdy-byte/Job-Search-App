@@ -15,7 +15,7 @@ const appSchema = new Schema({
         },
         public_id:{
             type : String
-        }
+        },
     },
     status:{
         type:String,

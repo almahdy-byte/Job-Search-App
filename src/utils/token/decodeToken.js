@@ -31,12 +31,14 @@ export const decodeToken = async(authorization , tokenType =tokenTypes.ACCESS  ,
             default:
                 break;
         }
-
+        
         let signature = tokenType == tokenTypes.ACCESS ? accessSignature : refreshSignature;
         if (!signature) 
             return next(new Error('Token signature is missing'));
+        
         try {
-            const decoded = await verify(token , signature);
+            
+            const decoded = await verify(token , signature)
             const user =await userModel.findOne({
                 _id:decoded.id,
                 isConfirmed:true,
@@ -44,6 +46,7 @@ export const decodeToken = async(authorization , tokenType =tokenTypes.ACCESS  ,
                 isDeleted:false,
                 deletedAt:null
             });
+            
             if (!user) 
                 return next(new Error('Invalid token'));
             return { user, accessSignature };

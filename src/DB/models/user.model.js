@@ -104,6 +104,14 @@ const userSchema = new Schema({
     bannedBy:{
         type :Types.ObjectId,
         ref:'Users'
+    },
+    isHr:{
+        type:Boolean,
+        default : false
+    },
+    isOwner:{
+        type:Boolean,
+        default : false
     }
 },{
     toJSON:{virtuals : true},

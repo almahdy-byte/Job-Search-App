@@ -9,7 +9,8 @@ export const addJobValidationSchema = Joi.object({
     jobDescription:generalValidation.jobDescription,
     technicalSkills :generalValidation.technicalSkills,
     softSkills :generalValidation.softSkills ,
-    companyId : generalValidation.id
+    companyName : generalValidation.companyName , 
+
 }).required()
 
 export const updateJobValidationSchema = Joi.object({
@@ -20,6 +21,17 @@ export const updateJobValidationSchema = Joi.object({
     jobDescription:generalValidation.jobDescription,
     technicalSkills :generalValidation.technicalSkills,
     softSkills :generalValidation.softSkills ,
-    companyId : generalValidation.id,
-    jobId : generalValidation.id
+    companyName : generalValidation.companyName,
+    jobId : generalValidation.id,
+
+})
+
+export const acceptOrRejectValidationSchema = Joi.object({
+    companyName : generalValidation.companyName,
+    appId : generalValidation.id,
+})
+
+export const deleteJobValidationSchema = Joi.object({
+    companyName : generalValidation.companyName,
+    jobId : generalValidation.id,
 })

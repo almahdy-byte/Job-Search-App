@@ -1,7 +1,6 @@
 import { StatusCodes } from "http-status-codes";
 import {  userModel } from "../../DB/models/user.model.js";
 import { hash } from "../../utils/hash/hash.js";
-import { encrypt } from "../../utils/crypt/encrypt.js";
 import { code } from "../../utils/sendEmail/code.js";
 import { template } from "../../utils/sendEmail/html.js";
 import { emailEvent} from "../../utils/sendEmail/sendEmail.js";
@@ -11,6 +10,7 @@ import { sign } from "../../utils/token/sign.js";
 import { OTPTypes, Providers, subjects, tokenTypes } from "../../utils/globalEnums/enums.js";
 import { compare } from "../../utils/hash/compare.js";
 import { compareOTP } from "./helpers/compareOTP.js";
+import { verifyGoogleToken } from "./helpers/verifyGoogleToken.js";
 
 export const register = async(req , res , next)=>{
     const {firstName , lastName  , email , password , phone ,role , DOB , gender} = req.body;
@@ -100,3 +100,28 @@ export const changePassword = async(req , res ,next)=>{
     return res.status(StatusCodes.ACCEPTED).json({message:'password changed' , user})
 }
 
+
+export const socialLogin = async(req , res , next)=>{
+    const {idToken} = req.body;
+    const payload = await verifyGoogleToken(idToken)
+    console.log({payload});
+    if(!payload.email_verified) 
+        return next(new Error('email not verified' , {cause:StatusCodes.BAD_REQUEST}));
+    let user = await userModel.findOne({
+        email:payload.email
+    });
+    if(user?.provider === Providers.SYSTEM)
+        return next(new Error('you should login with the system' , {cause:StatusCodes.BAD_REQUEST}));
+    if(!user){
+        user = await userModel.create({
+            firstName:payload.given_name,
+            lastName:payload.family_name,
+            email:payload.email,
+            provider:Providers.GOOGLE,
+            isConfirmed:true
+        
+    });
+    }
+    const {accessToken , refreshToken} = await createToken(user.role , {id : user._id ,changeCredentialTime : user.changeCredentialTime});
+    return res.status(StatusCodes.ACCEPTED).json({success:true,accessToken , refreshToken })
+}

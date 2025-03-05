@@ -1,5 +1,6 @@
 import express from "express"
 import { bootstrap } from "./src/app.controller.js";
+import { socketConnection } from "./src/socketio/socketio.js";
 
 
 const app = express();
@@ -9,4 +10,6 @@ bootstrap(app , express);
 
 
 
-app.listen(port , ()=>console.log(`server is running successfully`));
+const server = app.listen(port , ()=>console.log(`server is running successfully`));
+
+socketConnection(server)

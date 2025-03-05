@@ -9,11 +9,14 @@ import adminRouter from "./modules/adminModule/admin.router.js";
 import {schema} from './graphql.js'
 import { createHandler } from "graphql-http/lib/use/express";
 import companyRouter from "./modules/companyModule/company.router.js";
+import cors from 'cors'
 dotenv.config();
 export const bootstrap = async (app ,express)=>{
 app.use(express.json());
 await DBConnection();
-
+app.use(cors({
+    origin:'*'
+}))
 
 
 app.use('/auth' , authRouter)

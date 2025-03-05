@@ -1,6 +1,6 @@
 import { model, Schema, Types } from "mongoose";
 import { JobLocation, WorkingTime } from "../../utils/globalEnums/enums.js";
-
+import mongoosePaginate from 'mongoose-paginate-v2';
 export const jobSchema = new Schema({
     jobTitle:{
         type:String
@@ -50,5 +50,5 @@ jobSchema.virtual("Applications",{
     localField:"_id",
     foreignField:"jobId"
 })
-
+jobSchema.plugin(mongoosePaginate)
 export const jobModel = model('Jobs' , jobSchema)

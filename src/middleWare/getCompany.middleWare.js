@@ -16,7 +16,7 @@ export const getCompanyById = asyncErrorHandler(async(req , res , next)=>{
     export const getCompanyByName = asyncErrorHandler(async(req , res , next)=>{
         const {companyName} = req.params;
         const company = await companyModel.findOne({
-            companyName:companyName , deletedAt:null , bannedAt : null
+            companyName:companyName , deletedAt:null , bannedAt : null 
         })
         if(!company)
             return  next(new Error('company not found' , {cause : StatusCodes.NOT_FOUND}) )

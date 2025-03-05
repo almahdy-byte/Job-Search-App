@@ -39,3 +39,11 @@ emailEvent.on('resetPassword',async({to , subject = subjects.RESET_PASSWORD , te
   await sendEmail({to , subject , text , html});
   
   })
+  emailEvent.on('acceptApp',async({to , subject = subjects.ACCEPT_APP , text , html})=>{
+    await sendEmail({to , subject , text , html});
+    
+    })
+
+    emailEvent.on('rejectApp',async({to , subject = subjects.REJECT_APP , text , html})=>{
+      await sendEmail({to , subject , text , html});
+})
