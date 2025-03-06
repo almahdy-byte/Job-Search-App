@@ -53,7 +53,6 @@ const companySchema = new Schema({
     HRs:[{
         type:Types.ObjectId,
         ref:'Users',
-        unique : true
     }],
     bannedAt:{
         type:Date
