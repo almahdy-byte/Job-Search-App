@@ -29,6 +29,9 @@ export const updateJob = async(req , res , next)=>{
     const job = await jobModel.findOne({
         _id : jobId ,
     })
+    if(!job)
+        return next(new Error('job not found' , {cause :StatusCodes.NOT_FOUND}))
+
     if(user._id.toString()!== job.addedBy.toString())
         return next(new Error('you are not allowed to edit this job' , {cause:StatusCodes.BAD_REQUEST}));
     job.jobDescription = req.body.jobDescription || job.jobDescription;

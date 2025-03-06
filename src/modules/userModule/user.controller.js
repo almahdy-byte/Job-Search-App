@@ -26,13 +26,17 @@ export const getProfile = async(req , res , next)=>{
 }
 export const getUser = async(req , res ,next)=>{
     const {userId} = req.params;
-    if(userId.toString() === req.user._id.toString()) return res.status(StatusCodes.OK).json({success:true , user:req.user});
+    if(userId.toString() === req.user._id.toString()){
+        const {userName , profilePic , coverPic , phone} = req.user
+         return res.status(StatusCodes.OK).json({success:true , user:{userName , profilePic , coverPic , phone}});}
     if(!userId) return next(new Error('userId not found' , {cause:StatusCodes.NOT_FOUND}));
     const user = await userModel
     .findOne({_id : userId , isConfirmed:true , deletedAt:null , isDeleted : false})
-    .select('userName phone profilePic coverPic -_id')
     if(!user) return next(new Error('user not found' , {cause:StatusCodes.NOT_FOUND}));
-    return res.status(StatusCodes.OK).json({success:true , user});
+    const {userName , profilePic , coverPic , phone} = user
+    return res.status(StatusCodes.OK).json({success:true , user:{
+        userName , profilePic , coverPic , phone
+    }});
 }
 export const upDatePassword = async(req , res ,next)=>{
     const user = req.user;
@@ -107,7 +111,7 @@ export const deleteCoverPic = async(req , res ,next)=>{
 }
 
 export const softDelete = async(req , res , next)=>{
-const userId = req.params;
+const {userId} = req.params;
 const user = req.user;
 const targetUser = await userModel.findOne({
     _id : userId,
@@ -122,5 +126,5 @@ targetUser.isDeleted = true ;
 targetUser.deletedAt = Date.now()
 targetUser.deletedBy = user._id;
 await targetUser.save();
-return res.status(StatusCodes.ACCEPTED).json({success : true , user})
+return res.status(StatusCodes.ACCEPTED).json({success : true , user : targetUser})
 }

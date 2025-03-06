@@ -240,13 +240,16 @@ export const softDeleteCompany = async(req , res , next)=>{
         _id : companyId , deletedAt : null , bannedAt : null
     }).populate([
         {
-            path: 'Jobs'
+            path: 'Jobs',
+            populate:{
+                path:"Applications"
+            }
         },
         {
             path:'HRs'
         }
     ])
-    if(!company.createdBy.toString()!==user._id.toString() && user.role === Roles.ADMIN)
+    if(!company.createdBy.toString()!==user._id.toString() && user.role !== Roles.ADMIN)
         return next('you are not allowed to delete this job')
     if(company.HRs.length){
         for (const HR of HRs) {
@@ -257,6 +260,12 @@ export const softDeleteCompany = async(req , res , next)=>{
 
     if(company.Jobs.length){
         for (const job of Jobs) {
+            if (job.Applications && job.Applications.length) {
+                for (const app of job.Applications) {
+                    app.deleteAt  = Date.now();
+                    await app.save()
+                }
+                }
             job.deletedAt = Date.now()
             await job.save();
         }

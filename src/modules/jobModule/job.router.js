@@ -3,7 +3,7 @@ import { auth } from "../../middleWare/auth.middleWare.js";
 import * as jobServices from './job.controller.js'
 import { asyncErrorHandler } from "../../utils/errorHandlers/asyncErrorHandler.js";
 import { validation } from "../../middleWare/validation.middleWare.js";
-import { acceptOrRejectValidationSchema, addJobValidationSchema, deleteJobValidationSchema, updateJobValidationSchema } from "./job.validation.js";
+import { acceptOrRejectValidationSchema, addJobValidationSchema, deleteJobValidationSchema, findJobValidationSchema, mainJobValidationSchema, updateJobValidationSchema } from "./job.validation.js";
 import {  getCompanyByName } from "../../middleWare/getCompany.middleWare.js";
 import { uploadFile } from "../../utils/multer/uploadFile.js";
 import { FileType, Roles } from "../../utils/globalEnums/enums.js";
@@ -22,24 +22,27 @@ router.patch('/:jobId' ,
     validation(updateJobValidationSchema),
     asyncErrorHandler(jobServices.updateJob)
 )
-router.get('/',
+router.get('/search-company-jobs',
     auth(),
     getCompanyByName,
     asyncErrorHandler(jobServices.getJobsForCompany)
 )
 router.get('/find-job/',
     auth(),
+    validation(findJobValidationSchema),
     asyncErrorHandler(jobServices.jobSearch)
 )
 
 router.get('/get-applications/:jobId',
     auth(),
+    validation(mainJobValidationSchema),
     getCompanyByName,
     asyncErrorHandler(jobServices.getApplications)
 )
 router.post('/apply-job/:jobId' , 
     auth(),
     allowTo(Roles.USER),
+    validation(mainJobValidationSchema),
     getCompanyByName,
     uploadFile([...FileType.IMAGE , ...FileType.PDF]).single('pdf'),
     asyncErrorHandler(jobServices.applyJob)

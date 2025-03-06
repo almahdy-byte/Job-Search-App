@@ -49,7 +49,7 @@ export const decodeToken = async(authorization , tokenType =tokenTypes.ACCESS  ,
             
             if (!user) 
                 return next(new Error('Invalid token'));
-            return { user, accessSignature };
+            return { user  , accessSignature};
         } catch (error) {
             return next(new Error('Token verification failed'));
         }

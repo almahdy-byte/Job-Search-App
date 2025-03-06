@@ -28,8 +28,7 @@ export const banOrUnBanCompany =async(req , res , next)=>{
     const {companyId} = req.params;
     
     const targetCompany = await companyModel.findOne({
-        _id: companyId,
-        isDeleted:false , 
+        _id: companyId, 
         deletedAt : null , 
     })
     
@@ -39,7 +38,7 @@ export const banOrUnBanCompany =async(req , res , next)=>{
     }else{
         targetCompany.bannedAt = null;
     }
-    await targetUser.save();
+    await targetCompany.save();
     return res.status(StatusCodes.ACCEPTED).json({success : true , company : targetCompany})
 }
 

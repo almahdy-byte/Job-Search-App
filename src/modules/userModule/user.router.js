@@ -1,7 +1,7 @@
 import { Router } from "express";
 import { auth } from "../../middleWare/auth.middleWare.js";
 import { validation } from "../../middleWare/validation.middleWare.js";
-import { updatePasswordValidationSchema, updateUserValidationSchema } from "./user.validation.js";
+import { getAndDeleteUserValidationSchema, updatePasswordValidationSchema, updateUserValidationSchema } from "./user.validation.js";
 import { asyncErrorHandler } from "../../utils/errorHandlers/asyncErrorHandler.js";
 import * as userServices from './user.controller.js';
 import { uploadFile } from "../../utils/multer/uploadFile.js";
@@ -15,11 +15,13 @@ router.route('/')
     auth() , 
     validation(updateUserValidationSchema) , 
     asyncErrorHandler(userServices.updateUser))
-    .delete(
+router.delete('/:userId' ,
     auth(),
+    validation(getAndDeleteUserValidationSchema),
     asyncErrorHandler(userServices.softDelete))
 router.get('/:userId' , 
     auth() ,
+    validation(getAndDeleteUserValidationSchema),
     asyncErrorHandler(userServices.getUser))
 router.patch('/update-password' ,
     auth() , 

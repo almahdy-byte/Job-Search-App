@@ -115,8 +115,8 @@ const userSchema = new Schema({
         default : false
     }
 },{
-    toJSON:{virtuals : true},
-    toObject:{virtuals : true}
+    toJSON:{virtuals : true , getters : true},
+    toObject:{virtuals : true , getters : true}
 })
 
 userSchema.post("find" , async (users , next)=>{
@@ -139,9 +139,11 @@ userSchema.pre(/^save/ , async function(next){
     }
     next();
 })
+userSchema.virtual('userName').get(function() {
+    const firstName = this.firstName
+    const lastName = this.lastName
+    return `${firstName } ${lastName}`;
+});
 
-userSchema.virtual('userName').get(function(){
-return `${this.firstName} ${this.lastName}`
-})
 await userOTPSchedule;
 export const userModel = model('Users' , userSchema);

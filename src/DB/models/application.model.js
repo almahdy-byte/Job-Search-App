@@ -21,7 +21,7 @@ const appSchema = new Schema({
         type:String,
         default:'pending'
     }
-})
+},{timestamps : true})
 
 
 export const appModel = model('App' , appSchema);

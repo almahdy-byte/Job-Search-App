@@ -69,9 +69,13 @@ export const logIn = async(req , res , next)=>{
 
 export const refreshToken =async(req , res, next)=>{
     const {refreshToken} = req.body;   
-    const {user , accessSignature} = await decodeToken(refreshToken , tokenTypes.REFRESH , next);
-    const accessToken = await sign({id : user._id} , accessSignature)
-    return res.status(StatusCodes.ACCEPTED).json({user , accessToken});
+    const decodedData = await decodeToken(refreshToken , tokenTypes.REFRESH , next);
+    if (!decodedData || !decodedData.user) {
+        return next(new Error("Invalid refresh token", { cause: StatusCodes.UNAUTHORIZED }));
+    }
+    const {user , accessSignature} = decodedData
+    const accessToken = await sign({id : user._id , changeCredentialTime : user.changeCredentialTime} , accessSignature)
+    return res.status(StatusCodes.ACCEPTED).json({ accessToken});
 }
 export const resetPassword =async(req , res , next)=>{
     const user = req.user;

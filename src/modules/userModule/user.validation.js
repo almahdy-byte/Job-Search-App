@@ -13,3 +13,7 @@ export const updatePasswordValidationSchema = Joi.object({
     oldPassword : generalValidation.password,
     newPassword : generalValidation.password
 }).required()
+
+export const getAndDeleteUserValidationSchema = Joi.object({
+    userId : generalValidation.id.required()
+})
