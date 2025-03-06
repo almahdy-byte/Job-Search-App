@@ -47,7 +47,7 @@ app.use('/graphql' , createHandler({schema ,
     }
 }))
 app.use('/chat' , chatRouter)
-app.get('/ ,
+app.get('/' ,
         (req,res,next)=> res.json({message:"job search main route"})
        )
 app.use('*' ,(req ,res ,next)=>{
