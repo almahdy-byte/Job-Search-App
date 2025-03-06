@@ -2,6 +2,7 @@ import { StatusCodes } from "http-status-codes";
 import { companyModel } from "../../DB/models/company.model.js";
 import { userModel } from "../../DB/models/user.model.js";
 import cloudinary from "../../utils/multer/cloudinary.js";
+import { Roles } from "../../utils/globalEnums/enums.js";
 
 export const addCompany = async(req , res , next)=>{
     const user = req.user;
@@ -130,7 +131,9 @@ export const getCompanyAndRelatedJobs = async(req , res , next)=>{
 export const uploadLogo = async(req , res ,next)=>{
 const file = req.file
 const user = req.user
-
+if (!file) {
+    return next(new Error('image is required', { cause: StatusCodes.BAD_REQUEST }));
+}
 const {companyId} = req.params
 
 const company = await companyModel.findOne({
@@ -156,6 +159,9 @@ return res.status(StatusCodes.ACCEPTED).json({success:true , company})
 export const uploadCovePic = async(req , res ,next)=>{
     const file = req.file
     const user = req.user
+    if (!file) {
+        return next(new Error('image is required', { cause: StatusCodes.BAD_REQUEST }));
+    }
     const {companyId} = req.params
     const company = await companyModel.findOne({
         _id : companyId , deletedAt : null , bannedAt : null
@@ -240,7 +246,7 @@ export const softDeleteCompany = async(req , res , next)=>{
             path:'HRs'
         }
     ])
-    if(!company.createdBy.toString()!==user._id.toString())
+    if(!company.createdBy.toString()!==user._id.toString() && user.role === Roles.ADMIN)
         return next('you are not allowed to delete this job')
     if(company.HRs.length){
         for (const HR of HRs) {

@@ -31,3 +31,7 @@ export const getCompanyWithNameValidationSchema = Joi.object({
 export const getCompanyAndRElatedJobsValidationSchema = Joi.object({
     companyId: generalValidation.id.required()
 })
+
+export const companyIdValidationSchema=Joi.object({
+    companyId: generalValidation.id.required()
+})

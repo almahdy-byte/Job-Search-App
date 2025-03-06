@@ -4,7 +4,7 @@ import { asyncErrorHandler } from "../../utils/errorHandlers/asyncErrorHandler.j
 import { FileType } from "../../utils/globalEnums/enums.js";
 import { uploadFile } from "../../utils/multer/uploadFile.js";
 import * as companyServices from './company.controller.js'
-import { createCompanyValidationSchema, getCompanyAndRElatedJobsValidationSchema, updateCompanyValidationSchema } from "./company.validation.js";
+import { companyIdValidationSchema, createCompanyValidationSchema, getCompanyAndRElatedJobsValidationSchema, getCompanyWithNameValidationSchema, updateCompanyValidationSchema } from "./company.validation.js";
 import { Router } from "express";
 import jobRouter from '../jobModule/job.router.js'
 const router = Router({mergeParams : true});
@@ -22,6 +22,7 @@ router.patch('/:companyId' ,
 )
 router.get('/:companyName' ,
     auth(),
+    validation(getCompanyWithNameValidationSchema),
     asyncErrorHandler(companyServices.getCompanyWithName)
 )
 router.get('/get-company-relatedJobs/:companyId' ,
@@ -32,24 +33,29 @@ router.get('/get-company-relatedJobs/:companyId' ,
 router.post('/upload-logo/:companyId' , 
     auth(),
     uploadFile(FileType.IMAGE).single('image'),
+    validation(companyIdValidationSchema),
     asyncErrorHandler(companyServices.uploadLogo)
 )
 router.post('/upload-coverPic/:companyId' , 
     auth(),
     uploadFile(FileType.IMAGE).single('image'),
+    validation(companyIdValidationSchema),
     asyncErrorHandler(companyServices.uploadCovePic)
 )
 router.delete('/delete-logo/:companyId',
     auth(),
+    validation(companyIdValidationSchema),
     asyncErrorHandler(companyServices.deleteLogo)
 )
 router.delete('/delete-coverPic/:companyId',
     auth(),
+    validation(companyIdValidationSchema),
     asyncErrorHandler(companyServices.deleteCoverPic)
 )
 
 router.delete('/:companyId' , 
     auth(),
+    validation(companyIdValidationSchema),
     asyncErrorHandler(companyServices.softDeleteCompany)
 )
 export default router;

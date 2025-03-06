@@ -1,4 +1,4 @@
-import { GraphQLBoolean, GraphQLEnumType, GraphQLID, GraphQLObjectType, GraphQLString } from "graphql";
+import { GraphQLBoolean, GraphQLEnumType, GraphQLID, GraphQLList, GraphQLObjectType, GraphQLString } from "graphql";
 import { Gender, Roles } from "../../../utils/globalEnums/enums.js";
 
 const  picture = new GraphQLObjectType({
@@ -66,3 +66,43 @@ export const userType = new GraphQLObjectType({
     }
 })
 
+
+
+export const companyType = new GraphQLObjectType({
+    name:'companyType',
+    fields:{
+        companyName:{
+            type:GraphQLString
+        },
+        industry:{
+            type:GraphQLString
+        },
+        companyEmail:{
+            type:GraphQLString
+        },
+        description:{
+            type:GraphQLString
+        },
+        createdBy:{
+            type:GraphQLID
+        },
+        id:{
+            type:GraphQLID
+        },
+        HRs:{
+            type:new GraphQLList(GraphQLID)
+        },
+        approvedByAdmin:{
+            type:GraphQLBoolean
+        },
+        logo:{
+            type: picture
+        },
+        coverPic:{
+            type : picture
+        },
+        legalAttachment:{
+            type : picture
+        },
+    }
+})

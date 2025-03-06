@@ -68,7 +68,7 @@ export const logIn = async(req , res , next)=>{
 }
 
 export const refreshToken =async(req , res, next)=>{
-    const {refreshToken} = req.body;    
+    const {refreshToken} = req.body;   
     const {user , accessSignature} = await decodeToken(refreshToken , tokenTypes.REFRESH , next);
     const accessToken = await sign({id : user._id} , accessSignature)
     return res.status(StatusCodes.ACCEPTED).json({user , accessToken});

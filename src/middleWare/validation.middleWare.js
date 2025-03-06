@@ -55,5 +55,6 @@ export const generalValidation = {
     technicalSkills : Joi.array(),
     softSkills : Joi.array(),
     workingTime : Joi.string().valid(...Object.values(WorkingTime)),
-    HRs : Joi.array()
+    HRs : Joi.array(),
+    token : Joi.string()
 }

@@ -24,7 +24,7 @@ router.post('/ban-unban-company/:companyId' ,
     asyncErrorHandler(adminServices.banOrUnBanCompany)
 )
 
-router.patch('/approve-company' , 
+router.patch('/approve-company/:companyId' , 
     auth(),
     allowTo(Roles.ADMIN),
     validation(approveCompanyValidation),

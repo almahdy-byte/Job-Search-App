@@ -17,7 +17,7 @@ io.use(async(socket , next)=>{
 });
 io.on('connection' , async(socket)=>{
     console.log("New client connected");
-    sendMessage(socket)
+    sendMessage(socket);
     socket.on("disconnect", ()=>{console.log("Client disconnected")});
 })
 }

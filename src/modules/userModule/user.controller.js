@@ -48,8 +48,9 @@ export const upDatePassword = async(req , res ,next)=>{
 export const uploadProfilePic = async(req , res ,next)=>{
 const file = req.file
 const user = req.user
-console.log(user);
-
+if (!file) {
+    return next(new Error('image is required', { cause: StatusCodes.BAD_REQUEST }));
+}
 
 const{secure_url , public_id} = await cloudinary.uploader.upload(file.path , {
     folder : `users/user/${user._id}/profilePic`
@@ -66,7 +67,10 @@ return res.status(StatusCodes.ACCEPTED).json({success:true , user})
 export const uploadCovePic = async(req , res ,next)=>{
     const file = req.file
     const user = req.user
-
+    if (!file) {
+        return next(new Error('image is required', { cause: StatusCodes.BAD_REQUEST }));
+    }
+    
     const{secure_url , public_id} = await cloudinary.uploader.upload(file.path , {
         folder : `users/user/${user._id}/coverPic`
     });

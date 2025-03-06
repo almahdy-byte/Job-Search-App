@@ -1,6 +1,7 @@
 import { StatusCodes } from "http-status-codes";
-import { chatModel } from "../../DB/models/chat.model";
-import { userModel } from "../../DB/models/user.model";
+import { chatModel } from "../../DB/models/chat.model.js";
+import { userModel } from "../../DB/models/user.model.js";
+
 
 export const getChat = async(req , res , next)=>{
 

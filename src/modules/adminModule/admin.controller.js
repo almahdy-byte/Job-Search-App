@@ -47,14 +47,13 @@ export const approveCompany = async(req , res , next)=>{
     const {companyId} = req.params;
     
     const company = await companyModel.findOne({
-        _id: companyId,
-        isDeleted:false , 
+        _id: companyId, 
         deletedAt : null , 
         bannedAt : null
     })
     if(!company)
         return next(new Error('company not found' , {cause:StatusCodes.NOT_FOUND}));
-    if(!company.approvedByAdmin)
+    if(company.approvedByAdmin)
         return next(new Error('company already approved' , {cause:StatusCodes.BAD_REQUEST}));
     company.approvedByAdmin = true;
     await company.save();

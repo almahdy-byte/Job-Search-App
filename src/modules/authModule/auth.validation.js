@@ -36,3 +36,12 @@ export const changeEmailValidationSchema = Joi.object({
     tempEmailOTP:generalValidation.code.required(),
     changeEmailOTP: generalValidation.code.required()
 })
+
+
+export const socialLoginValidationSchema=Joi.object({
+    idToken : generalValidation.token.required()
+})
+
+export const refreshTokenValidationSchema=Joi.object({
+    refreshToken : generalValidation.token.required()
+})

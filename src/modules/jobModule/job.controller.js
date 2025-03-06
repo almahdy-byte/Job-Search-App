@@ -8,7 +8,6 @@ import { pagination } from "../../utils/pagination/pagination.js";
 import { template } from "../../utils/sendEmail/html.js";
 import { subjects } from "../../utils/globalEnums/enums.js";
 import { emailEvent } from "../../utils/sendEmail/sendEmail.js";
-import { json } from "express";
 
 
 
@@ -95,6 +94,10 @@ export const getApplications = async(req , res , next)=>{
 
 export const applyJob = async(req , res , next)=>{
     const file = req.file;
+    if (!file) {
+        return next(new Error('CV file is required', { cause: StatusCodes.BAD_REQUEST }));
+    }
+    
     const user = req.user;
     const {jobId} = req.params;
     const company = req.company;
@@ -107,8 +110,12 @@ export const applyJob = async(req , res , next)=>{
         }
     })
     if(!job)
-        return next(new Error('job not found'))
-    
+        return next(new Error('job not found' , {cause :StatusCodes.NOT_FOUND}))
+    const isExist = await appModel.findOne({
+        jobId , userId:user._id 
+    });
+    if(isExist)
+        return next(new Error('you are already applied to this job' , {cause :StatusCodes.BAD_REQUEST}))
     const {secure_url , public_id} = await cloudinary.uploader.upload(file.path , {
         folder:`users/user/applications/${user._id}/userCV`
     });
@@ -180,13 +187,10 @@ export const deleteJob = async(req , res , next)=>{
     
     if(!job)
         return next(new Error('job not found' , {cause : StatusCodes.NOT_FOUND}));
+    
     if(!checkHR(company.HRs , user._id) && user._id.toString() !== company.createdBy.toString())
         return next(new Error('you are not allowed to delete this job' , {cause : StatusCodes.BAD_REQUEST}));
-    if(job.Applications.length){
-        for (const app of job.Applications) {
-            await app.deleteOne();
-        }
-    }
+
     await job.deleteOne()
     return res.status(StatusCodes.ACCEPTED).json({success : true})
 }

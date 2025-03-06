@@ -6,7 +6,8 @@ import { validation } from "../../middleWare/validation.middleWare.js";
 import { acceptOrRejectValidationSchema, addJobValidationSchema, deleteJobValidationSchema, updateJobValidationSchema } from "./job.validation.js";
 import {  getCompanyByName } from "../../middleWare/getCompany.middleWare.js";
 import { uploadFile } from "../../utils/multer/uploadFile.js";
-import { FileType } from "../../utils/globalEnums/enums.js";
+import { FileType, Roles } from "../../utils/globalEnums/enums.js";
+import { allowTo } from "../../middleWare/allowTo.middleWare.js";
 const router = Router({mergeParams : true});
 
 
@@ -38,6 +39,7 @@ router.get('/get-applications/:jobId',
 )
 router.post('/apply-job/:jobId' , 
     auth(),
+    allowTo(Roles.USER),
     getCompanyByName,
     uploadFile([...FileType.IMAGE , ...FileType.PDF]).single('pdf'),
     asyncErrorHandler(jobServices.applyJob)

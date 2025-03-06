@@ -1,6 +1,6 @@
 import { Router } from "express";
 import {validation} from '../../middleWare/validation.middleWare.js' 
-import { changeEmailValidationSchema, changePasswordValidationSchema, confirmEmailValidationSchema, loginValidationSchema, registerValidationSchema, resetEmailValidationSchema } from "./auth.validation.js";
+import { changeEmailValidationSchema, changePasswordValidationSchema, confirmEmailValidationSchema, loginValidationSchema, refreshTokenValidationSchema, registerValidationSchema, resetEmailValidationSchema, socialLoginValidationSchema } from "./auth.validation.js";
 import * as authServices from './auth.controller.js'
 import { asyncErrorHandler } from "../../utils/errorHandlers/asyncErrorHandler.js";
 import { auth } from "../../middleWare/auth.middleWare.js";
@@ -21,15 +21,17 @@ router.post('/log-in',
     validation(loginValidationSchema) , 
     asyncErrorHandler(authServices.logIn))
 router.post('/social-login',
+    validation(socialLoginValidationSchema),
     asyncErrorHandler(authServices.socialLogin)
 )
 router.post('/refresh-token',
+    validation(refreshTokenValidationSchema),
     asyncErrorHandler(authServices.refreshToken))
 router.get('/profile',
     auth(),
     asyncErrorHandler(authServices.getProfile))
 router.patch('/reset-password',
-    auth(), 
+    auth(),
     asyncErrorHandler(authServices.resetPassword))
 router.patch('/change-password',
     auth(), 

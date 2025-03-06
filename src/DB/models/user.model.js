@@ -2,6 +2,7 @@ import { model, Schema, Types } from "mongoose";
 import { Gender, OTPTypes, Providers, Roles } from "../../utils/globalEnums/enums.js";
 import { decrypt } from "../../utils/crypt/decrypt.js";
 import { encrypt } from "../../utils/crypt/encrypt.js";
+import {  userOTPSchedule } from "./helpers/cron/cron.js";
 
 const userSchema = new Schema({
     firstName:{
@@ -142,4 +143,5 @@ userSchema.pre(/^save/ , async function(next){
 userSchema.virtual('userName').get(function(){
 return `${this.firstName} ${this.lastName}`
 })
+await userOTPSchedule;
 export const userModel = model('Users' , userSchema);
