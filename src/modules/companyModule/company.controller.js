@@ -3,6 +3,11 @@ import { companyModel } from "../../DB/models/company.model.js";
 import { userModel } from "../../DB/models/user.model.js";
 import cloudinary from "../../utils/multer/cloudinary.js";
 import { Roles } from "../../utils/globalEnums/enums.js";
+import ExcelJs from 'exceljs'
+import path from "path";
+import fs from 'fs'
+import { fileURLToPath } from "url";
+import { checkAccess } from "../jobModule/helpers/checkAccess.js";
 
 export const addCompany = async(req , res , next)=>{
     const user = req.user;
@@ -273,4 +278,78 @@ export const softDeleteCompany = async(req , res , next)=>{
 
     company.deletedAt = Date.now();
     return res.status(StatusCodes.ACCEPTED).json({company})
+}
+
+
+export const saveAppToExcelSheet = async(req , res , next)=>{
+    const {companyId } = req.params;
+    const {user} = req.user
+    const date = new Date(req.body.date);
+    const company = await companyModel.findOne({
+        _id : companyId , bannedAt : null , deletedAt : null
+    }).populate([
+        {
+            path: 'Jobs',
+            populate:{
+                path:"Applications",
+                populate:[
+                    {
+                        path : 'userId'
+                    },
+                    {
+                        path:'jobId'
+                    }
+                ]
+            }
+        }
+    ])
+    if(!company)
+        return next(new Error('company not found' , {cause: StatusCodes.NOT_FOUND}))
+    if(!checkAccess(user , company))
+        return next(new Error('you are not allowed to access this end point' , {cause: StatusCodes.BAD_REQUEST}))
+    let applications = [];
+    const Jobs = company.Jobs;
+    for (const job of Jobs) {
+        applications = [...applications , ...job.Applications]
+    }
+    applications.filter(app => app.createdAt.toISOString() === date.toISOString())
+    if (!applications.length) {
+        return next(new Error( "No applications found for this company in this day" , {cause:StatusCodes.NOT_FOUND}));
+    }
+
+    const workbook = new ExcelJs.Workbook();
+    const worksheet = workbook.addWorksheet("Applications");
+
+    worksheet.columns = [
+        { header: "ID", key: "_id", width: 30},
+        { header: "userName", key: "userName", width: 30},
+        { header: "Email", key: "email", width: 30},
+        { header: "jobTitle", key: "jobTitle", width: 30},
+        { header: "Status", key: "status", width: 30},
+    ];
+
+
+    applications.forEach((app) => {
+        worksheet.addRow({
+            _id: app._id.toString(),
+            userName:app.userId.userName,
+            jobTitle: app.jobId.jobTitle,
+            email: app.userId.email,
+            status: app.status,
+            createdAt: app.createdAt.toISOString().split("T")[0],
+        });
+    });
+    const __fileName = fileURLToPath(import.meta.url)
+    const __dirname = path.dirname(__fileName)
+    if(!__dirname)
+        fs.mkdir(__dirname,{recursive : true})
+    const filePath = path.join(__dirname, `applications-${companyId}-${date.toISOString().split('T')[0]}.xlsx`);
+    await workbook.xlsx.writeFile(filePath);
+    console.log('done' , filePath);
+    
+
+    return res.download(filePath, () => {
+        fs.unlinkSync(filePath); 
+    });
+
 }

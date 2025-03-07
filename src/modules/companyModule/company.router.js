@@ -59,3 +59,9 @@ router.delete('/:companyId' ,
     asyncErrorHandler(companyServices.softDeleteCompany)
 )
 export default router;
+
+//bonus end point
+
+router.get('/download-app/:companyId' ,
+    asyncErrorHandler(companyServices.saveAppToExcelSheet)
+)
