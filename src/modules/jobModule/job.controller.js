@@ -142,7 +142,7 @@ export const acceptApp = async(req , res , next)=>{
     }).populate([{
         path:'userId'
     }])
-
+    
     if(!app)
         return next(new Error('application not found' , {cause : StatusCodes.NOT_FOUND}));
     if(!checkHR(company.HRs , user._id))

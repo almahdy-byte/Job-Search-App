@@ -35,3 +35,7 @@ export const getCompanyAndRElatedJobsValidationSchema = Joi.object({
 export const companyIdValidationSchema=Joi.object({
     companyId: generalValidation.id.required()
 })
+export const downloadExcelSheetValidationSchema=Joi.object({
+    companyId: generalValidation.id.required(),
+    date: generalValidation.string().required()
+})

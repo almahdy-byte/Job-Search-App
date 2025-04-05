@@ -4,7 +4,7 @@ import { asyncErrorHandler } from "../../utils/errorHandlers/asyncErrorHandler.j
 import { FileType } from "../../utils/globalEnums/enums.js";
 import { uploadFile } from "../../utils/multer/uploadFile.js";
 import * as companyServices from './company.controller.js'
-import { companyIdValidationSchema, createCompanyValidationSchema, getCompanyAndRElatedJobsValidationSchema, getCompanyWithNameValidationSchema, updateCompanyValidationSchema } from "./company.validation.js";
+import { companyIdValidationSchema, createCompanyValidationSchema, downloadExcelSheetValidationSchema, getCompanyAndRElatedJobsValidationSchema, getCompanyWithNameValidationSchema, updateCompanyValidationSchema } from "./company.validation.js";
 import { Router } from "express";
 import jobRouter from '../jobModule/job.router.js'
 const router = Router({mergeParams : true});
@@ -63,5 +63,7 @@ export default router;
 //bonus end point
 
 router.get('/download-app/:companyId' ,
+    auth(),
+    validation(downloadExcelSheetValidationSchema),
     asyncErrorHandler(companyServices.saveAppToExcelSheet)
 )
