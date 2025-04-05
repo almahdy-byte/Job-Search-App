@@ -13,7 +13,7 @@ import cors from 'cors'
 import chatRouter from "./modules/chatModule/chat.router.js";
 import rateLimit from "express-rate-limit";
 import helmet from "helmet";
-dotenv.config();
+import "dotenv/config"
 export const bootstrap = async (app ,express)=>{
 app.use(express.json());
 await DBConnection();
