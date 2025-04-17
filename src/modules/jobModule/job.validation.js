@@ -36,6 +36,8 @@ export const findJobValidationSchema = Joi.object({
     softSkills :generalValidation.softSkills ,
     companyName : generalValidation.companyName,
     jobId : generalValidation.id,
+    page : generalValidation.page,
+    size : generalValidation.size,
 
 })
 export const acceptOrRejectValidationSchema = Joi.object({

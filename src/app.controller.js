@@ -48,7 +48,7 @@ app.use('/graphql' , createHandler({schema ,
 }))
 app.use('/chat' , chatRouter)
 app.get('/' ,
-        (req,res,next)=> res.json({message:"job search main route"})
+        (req,res,next)=>res.json({message:"job search main route"})
        )
 app.use('*' ,(req ,res ,next)=>{
     return res.status(StatusCodes.NOT_FOUND).json({message : 'page not found'})

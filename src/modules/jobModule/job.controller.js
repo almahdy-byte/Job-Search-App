@@ -76,10 +76,12 @@ export const getApplications = async(req , res , next)=>{
     const {jobId} = req.params;
     const user = req.user;
     const company = req.company
+    // check if the user is allowed to see applications
+
     if(!checkAccess(user , company))
         return next(new Error('you are not allowed to see applications'))
 
-    
+    // check if the job is not found
 
 
     const job = await jobModel.findOne({

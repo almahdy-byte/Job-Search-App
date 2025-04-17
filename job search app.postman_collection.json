@@ -1,0 +1,1228 @@
+{
+	"info": {
+		"_postman_id": "2aea4ea5-e9f6-452a-bd01-746bae924b48",
+		"name": "job search app",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "36960235"
+	},
+	"item": [
+		{
+			"name": "auth",
+			"item": [
+				{
+					"name": "change password",
+					"request": {
+						"method": "PATCH",
+						"header": [
+							{
+								"key": "authorization",
+								"value": "admin eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY3Yzk5ZGNkMDdmZDg4Y2FmZTY4MTc2MCIsImNoYW5nZUNyZWRlbnRpYWxUaW1lIjoiMjAyNS0wMy0wNlQxMzowNDo0MS4xOTNaIiwiaWF0IjoxNzQxMjY2NDI3LCJleHAiOjE3NDE4NzEyMjd9.rg4nRjp9EByNXg4bcukf9YemS0Ax_Pkf4KCaY8oLnPY",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"password\":\"almahdy20\",\r\n    \"code\":\"389972\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{BASE_URL}}/auth/change-password",
+							"host": [
+								"{{BASE_URL}}"
+							],
+							"path": [
+								"auth",
+								"change-password"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "route",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{BASE_URL}}/auth",
+							"host": [
+								"{{BASE_URL}}"
+							],
+							"path": [
+								"auth"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "refresh token",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "authorization",
+								"value": "user eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY3YmFmNmUxMjU0ZTliYWI4NjFkY2JmOSIsImlhdCI6MTc0MDMwNzY0MCwiZXhwIjoxNzQwOTEyNDQwfQ.dtHiO6W-icDZnJ3xiNxLiSN6Jm4pzOBxfLZU0iOY4So",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n \"refreshToken\": \"admin eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY4MDE0MmEwYTNlNjJlMzM4NDgxNDRiNyIsImNoYW5nZUNyZWRlbnRpYWxUaW1lIjoiMjAyNS0wNC0xN1QxNzo1OTo0MC4xNjZaIiwiaWF0IjoxNzQ0OTE2NjI2LCJleHAiOjE3NDU1MjE0MjZ9.EhBrEqjNLF9Rw6wwSkASPGboRTdhNTw38Zj8Q6pfyUE\"\r\n }",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{BASE_URL}}/auth/refresh-token",
+							"host": [
+								"{{BASE_URL}}"
+							],
+							"path": [
+								"auth",
+								"refresh-token"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "reset password",
+					"request": {
+						"method": "PATCH",
+						"header": [
+							{
+								"key": "authorization",
+								"value": "admin eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY3Yzk5ZGNkMDdmZDg4Y2FmZTY4MTc2MCIsImNoYW5nZUNyZWRlbnRpYWxUaW1lIjoiMjAyNS0wMy0wNlQxMzowNDo0MS4xOTNaIiwiaWF0IjoxNzQxMjY2NDI3LCJleHAiOjE3NDE4NzEyMjd9.rg4nRjp9EByNXg4bcukf9YemS0Ax_Pkf4KCaY8oLnPY",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{BASE_URL}}/auth/reset-password",
+							"host": [
+								"{{BASE_URL}}"
+							],
+							"path": [
+								"auth",
+								"reset-password"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "register",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"firstName\":\"ali\" ,\r\n    \"lastName\":\"mohamed\",\r\n    \"phone\":\"01026406398\",\r\n    \"password\":\"almahdy2030\",\r\n    \"gender\":\"male\",\r\n    \"DOB\":\"2004-10-26\",\r\n    \"email\":\"mohamedalmahdy@gmail.com\",\r\n    \"role\":\"admin\"\r\n    }",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{BASE_URL}}/auth/register",
+							"host": [
+								"{{BASE_URL}}"
+							],
+							"path": [
+								"auth",
+								"register"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "confirm emai",
+					"request": {
+						"method": "PATCH",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"email\":\"mohamedalmahdy61@gmail.com\",\r\n    \"code\":\"756398\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{BASE_URL}}/auth/confirm-email",
+							"host": [
+								"{{BASE_URL}}"
+							],
+							"path": [
+								"auth",
+								"confirm-email"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "log in",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"email\":\"mohamedalmahdy1@gmail.com\",\r\n    \"password\":\"almahdy2030\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{BASE_URL}}/auth/log-in",
+							"host": [
+								"{{BASE_URL}}"
+							],
+							"path": [
+								"auth",
+								"log-in"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "user",
+			"item": [
+				{
+					"name": "get profile",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "authorization",
+								"value": "{{ADMIN_TOKEN}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{BASE_URL}}/user",
+							"host": [
+								"{{BASE_URL}}"
+							],
+							"path": [
+								"user"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "delete profile",
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "authorization",
+								"value": "admin eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY3Yzk5ZGNkMDdmZDg4Y2FmZTY4MTc2MCIsImNoYW5nZUNyZWRlbnRpYWxUaW1lIjoiMjAyNS0wMy0wNlQxMzowOToxNC4wMTNaIiwiaWF0IjoxNzQxMjY3NDU4LCJleHAiOjE3NDEyNjkyNTh9.jmCkmgpeFyYcaNa1bhYXTq7Vdb8j9Y4KI8DCS4P5TOI",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{BASE_URL}}/user/67c83f82f7dce82b9f5d7d18",
+							"host": [
+								"{{BASE_URL}}"
+							],
+							"path": [
+								"user",
+								"67c83f82f7dce82b9f5d7d18"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "get user",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "authorization",
+								"value": "{{ADMIN_TOKEN}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{BASE_URL}}/user/680147ff69c8b4a8b4eaceb5",
+							"host": [
+								"{{BASE_URL}}"
+							],
+							"path": [
+								"user",
+								"680147ff69c8b4a8b4eaceb5"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "update user",
+					"request": {
+						"method": "PATCH",
+						"header": [
+							{
+								"key": "authorization",
+								"value": "{{ADMIN_TOKEN}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"firstName\":\"mohamed\" ,\r\n    \"lastName\":\"almahdy\",\r\n    \"phone\":\"01008357787\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{BASE_URL}}/user/",
+							"host": [
+								"{{BASE_URL}}"
+							],
+							"path": [
+								"user",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "upload profile pic",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "authorization",
+								"value": "{{ADMIN_TOKEN}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "image",
+									"type": "file",
+									"src": "/E:/Swisa/Music/WhatsApp Image 2024-12-16 at 19.28.28_c6d64c7d.jpg"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{BASE_URL}}/user/upload-profilePic",
+							"host": [
+								"{{BASE_URL}}"
+							],
+							"path": [
+								"user",
+								"upload-profilePic"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "delete profile pic",
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "authorization",
+								"value": "{{ADMIN_TOKEN}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{BASE_URL}}/user/delete-profilePic",
+							"host": [
+								"{{BASE_URL}}"
+							],
+							"path": [
+								"user",
+								"delete-profilePic"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "delete cover pic",
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "authorization",
+								"value": "{{ADMIN_TOKEN}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{BASE_URL}}/user/delete-profilePic",
+							"host": [
+								"{{BASE_URL}}"
+							],
+							"path": [
+								"user",
+								"delete-profilePic"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "upload cover pic",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "authorization",
+								"value": "{{ADMIN_TOKEN}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "image",
+									"type": "file",
+									"src": "/E:/Swisa/Music/WhatsApp Image 2025-02-13 at 01.31.34_7d056a30.jpg"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{BASE_URL}}/user/upload-coverPic",
+							"host": [
+								"{{BASE_URL}}"
+							],
+							"path": [
+								"user",
+								"upload-coverPic"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "update password",
+					"request": {
+						"method": "PATCH",
+						"header": [
+							{
+								"key": "authorization",
+								"value": "admin eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY3Yzk5ZGNkMDdmZDg4Y2FmZTY4MTc2MCIsImNoYW5nZUNyZWRlbnRpYWxUaW1lIjoiMjAyNS0wMy0wNlQxMzowOToxNC4wMTNaIiwiaWF0IjoxNzQxMjY5ODUwLCJleHAiOjE3NDEyNzE2NTB9.47ZEdIYybwU1HbX62iO2qrT9sMGAUpiAtXpybdHlp2Q",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"oldPassword\" : \"almahdy20\",\r\n    \"newPassword\" : \"almahdy2030\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{BASE_URL}}/user/update-password",
+							"host": [
+								"{{BASE_URL}}"
+							],
+							"path": [
+								"user",
+								"update-password"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "admin",
+			"item": [
+				{
+					"name": "ban or unban user",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "authorization",
+								"value": "{{ADMIN_TOKEN}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{BASE_URL}}/admin/ban-unban-user/6801570df97130c5584fc33a",
+							"host": [
+								"{{BASE_URL}}"
+							],
+							"path": [
+								"admin",
+								"ban-unban-user",
+								"6801570df97130c5584fc33a"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "ban or unban company",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "authorization",
+								"value": "{{ADMIN_TOKEN}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{BASE_URL}}/admin/ban-unban-company/68014b4e92a4baea4b4ddbbe",
+							"host": [
+								"{{BASE_URL}}"
+							],
+							"path": [
+								"admin",
+								"ban-unban-company",
+								"68014b4e92a4baea4b4ddbbe"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "company",
+			"item": [
+				{
+					"name": "add company",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "authorization",
+								"value": "{{ADMIN_TOKEN}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"companyName\":\"d\",\r\n    \"companyEmail\":\"d@gmail.com\",\r\n    \"description\":\"haramy\",\r\n    \"address\":\"taht elselem\",\r\n    \"industry\":\"serka\",\r\n    \"numberOfEmployees\":15\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{BASE_URL}}/company/",
+							"host": [
+								"{{BASE_URL}}"
+							],
+							"path": [
+								"company",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "upload logo",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "authorization",
+								"value": "{{ADMIN_TOKEN}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "image",
+									"type": "file",
+									"src": "/E:/Swisa/Music/WhatsApp Image 2024-12-16 at 19.28.27_f6c10faa.jpg"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{BASE_URL}}/company/upload-logo/68014b4e92a4baea4b4ddbbe",
+							"host": [
+								"{{BASE_URL}}"
+							],
+							"path": [
+								"company",
+								"upload-logo",
+								"68014b4e92a4baea4b4ddbbe"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "upload coverPic",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "authorization",
+								"value": "{{ADMIN_TOKEN}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "image",
+									"type": "file",
+									"src": "/E:/Swisa/Music/WhatsApp Image 2024-12-16 at 19.28.27_f6c10faa.jpg"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{BASE_URL}}/company/upload-coverPic/68014b4e92a4baea4b4ddbbe",
+							"host": [
+								"{{BASE_URL}}"
+							],
+							"path": [
+								"company",
+								"upload-coverPic",
+								"68014b4e92a4baea4b4ddbbe"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "delete logo",
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "authorization",
+								"value": "{{ADMIN_TOKEN}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "image",
+									"type": "file",
+									"src": "/C:/Users/Swisa/Pictures/Screenshots/Screenshot 2025-01-29 184114.png"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{BASE_URL}}company/delete-logo/67c6e00791d1a139e325b2e0",
+							"host": [
+								"{{BASE_URL}}company"
+							],
+							"path": [
+								"delete-logo",
+								"67c6e00791d1a139e325b2e0"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "delete coverPic",
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "authorization",
+								"value": "admin eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY3YzU3YzA5YjIxMTZhMmFjNTIwOGQ5MiIsImNoYW5nZUNyZWRlbnRpYWxUaW1lIjoiMjAyNS0wMy0wM1QxMDowMDozNS4yMzNaIiwiaWF0IjoxNzQxMDg1NTM2LCJleHAiOjE3NDE2OTAzMzZ9.dHOMdE8XreZ76ilHEiQgZYfiT82wwtNs82f4_128z2A",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "image",
+									"type": "file",
+									"src": "/C:/Users/Swisa/Pictures/Screenshots/Screenshot 2025-01-29 184114.png"
+								}
+							]
+						},
+						"url": {
+							"raw": "http://localhost:3000/company/delete-coverPic/67c6e00791d1a139e325b2e0",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"company",
+								"delete-coverPic",
+								"67c6e00791d1a139e325b2e0"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "update company info",
+					"request": {
+						"method": "PATCH",
+						"header": [
+							{
+								"key": "authorization",
+								"value": "{{ADMIN_TOKEN}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"companyName\":\"ddd\",\r\n    \"companyEmail\":\"d5@gmail.com\",\r\n    \"description\":\"haramyia \",\r\n    \"address\":\"taht elselem eldor eltany\",\r\n    \"industry\":\"serka2\",\r\n    \"numberOfEmployees\":18\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{BASE_URL}}/company/68014b4e92a4baea4b4ddbbe",
+							"host": [
+								"{{BASE_URL}}"
+							],
+							"path": [
+								"company",
+								"68014b4e92a4baea4b4ddbbe"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "get with name",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "authorization",
+								"value": "{{ADMIN_TOKEN}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{BASE_URL}}/company/ddd",
+							"host": [
+								"{{BASE_URL}}"
+							],
+							"path": [
+								"company",
+								"ddd"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "delete company",
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "authorization",
+								"value": "{{ADMIN_TOKEN}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"companyName\":\"d\",\r\n    \"companyEmail\":\"d5@gmail.com\",\r\n    \"description\":\"haramyia \",\r\n    \"address\":\"taht elselem eldor eltany\",\r\n    \"industry\":\"serka2\",\r\n    \"numberOfEmployees\":18\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{BASE_URL}}/company/",
+							"host": [
+								"{{BASE_URL}}"
+							],
+							"path": [
+								"company",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "download excel",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"date\":\"2025-03-07\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:3000/company/download-app/67c848633154db041a771f56",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"company",
+								"download-app",
+								"67c848633154db041a771f56"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "job",
+			"item": [
+				{
+					"name": "applications",
+					"item": [
+						{
+							"name": "reject application",
+							"request": {
+								"method": "PATCH",
+								"header": [
+									{
+										"key": "authorization",
+										"value": "user eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY3YzgzZjg2ZjdkY2U4MmI5ZjVkN2QxYyIsImNoYW5nZUNyZWRlbnRpYWxUaW1lIjoiMjAyNS0wMy0wNVQxMjoxMTozNC4xMzdaIiwiaWF0IjoxNzQxMTgxNTQ1LCJleHAiOjE3NDE3ODYzNDV9.tIB6-KmnNWwziJ1j0M34E2SBqMEQac-GfXv7_z-lrpY",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:3000/company/d5/job/reject-application/67c85f6a1e3ad0c93a64aa49",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "3000",
+									"path": [
+										"company",
+										"d5",
+										"job",
+										"reject-application",
+										"67c85f6a1e3ad0c93a64aa49"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "accept application",
+							"request": {
+								"method": "PATCH",
+								"header": [
+									{
+										"key": "authorization",
+										"value": "{{ADMIN_TOKEN}}",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{BASE_URL}}/company/ddd/job/reject-application/680154383d315bc23285da8b",
+									"host": [
+										"{{BASE_URL}}"
+									],
+									"path": [
+										"company",
+										"ddd",
+										"job",
+										"reject-application",
+										"680154383d315bc23285da8b"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "apply job",
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "authorization",
+										"value": "{{USER_TOKEN}}",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "formdata",
+									"formdata": [
+										{
+											"key": "pdf",
+											"type": "file",
+											"src": "/E:/Swisa/Music/AI_.pdf"
+										}
+									]
+								},
+								"url": {
+									"raw": "http://localhost:3000/company/ddd/job/apply-job/680150c0a5b22aea8da57161",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "3000",
+									"path": [
+										"company",
+										"ddd",
+										"job",
+										"apply-job",
+										"680150c0a5b22aea8da57161"
+									],
+									"query": [
+										{
+											"key": "file",
+											"value": null,
+											"disabled": true
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "get applications",
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "authorization",
+										"value": "{{ADMIN_TOKEN}}",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "formdata",
+									"formdata": [
+										{
+											"key": "pdf",
+											"type": "file",
+											"src": "/C:/Users/Swisa/Downloads/11.pdf"
+										}
+									]
+								},
+								"url": {
+									"raw": "{{BASE_URL}}/company/ddd/job/get-applications/680150c0a5b22aea8da57161",
+									"host": [
+										"{{BASE_URL}}"
+									],
+									"path": [
+										"company",
+										"ddd",
+										"job",
+										"get-applications",
+										"680150c0a5b22aea8da57161"
+									],
+									"query": [
+										{
+											"key": "file",
+											"value": null,
+											"disabled": true
+										}
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "add job",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "authorization",
+								"value": "{{ADMIN_TOKEN}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"jobTitle\":\"haramy\",\r\n    \"jobDescription\":\"less\",\r\n    \"jobLocation\":\"remotely\",\r\n    \"workingTime\":\"half-time\",\r\n    \"technicalSkills\":[\"ayd 5afifa\" , \"tagassos 3li\"],\r\n    \"softSkills\":[\"ytkallam koyis\"],\r\n    \"seniorityLevel\":\"senior\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{BASE_URL}}/company/ddd/job/",
+							"host": [
+								"{{BASE_URL}}"
+							],
+							"path": [
+								"company",
+								"ddd",
+								"job",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "delete job",
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "authorization",
+								"value": "{{ADMIN_TOKEN}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "{{BASE_URL}}/company/ddd/job/680150c0a5b22aea8da57161",
+							"host": [
+								"{{BASE_URL}}"
+							],
+							"path": [
+								"company",
+								"ddd",
+								"job",
+								"680150c0a5b22aea8da57161"
+							],
+							"query": [
+								{
+									"key": "file",
+									"value": null,
+									"disabled": true
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "search for job",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "authorization",
+								"value": "{{ADMIN_TOKEN}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n \r\n    \"workingTime\":\"half-time\"\r\n\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{BASE_URL}}/company/ddd/job/find-job?page=1&size=4",
+							"host": [
+								"{{BASE_URL}}"
+							],
+							"path": [
+								"company",
+								"ddd",
+								"job",
+								"find-job"
+							],
+							"query": [
+								{
+									"key": "page",
+									"value": "1"
+								},
+								{
+									"key": "size",
+									"value": "4"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "get company jobs",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "authorization",
+								"value": "{{ADMIN_TOKEN}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n \r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{BASE_URL}}/company/ddd/job/search-company-jobs?page=1&size=3",
+							"host": [
+								"{{BASE_URL}}"
+							],
+							"path": [
+								"company",
+								"ddd",
+								"job",
+								"search-company-jobs"
+							],
+							"query": [
+								{
+									"key": "page",
+									"value": "1"
+								},
+								{
+									"key": "size",
+									"value": "3"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "update job",
+					"request": {
+						"method": "PATCH",
+						"header": [
+							{
+								"key": "authorization",
+								"value": "{{ADMIN_TOKEN}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"jobTitle\":\"haramy22\",\r\n    \"jobDescription\":\"less22\",\r\n    \"technicalSkills\":[\"ayd 5afifa22\" , \"tagassos 3li22\"],\r\n    \"softSkills\":[\"ytkallam koyis22\"]\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{BASE_URL}}/company/680150c0a5b22aea8da57161/job/680150c0a5b22aea8da57161",
+							"host": [
+								"{{BASE_URL}}"
+							],
+							"path": [
+								"company",
+								"680150c0a5b22aea8da57161",
+								"job",
+								"680150c0a5b22aea8da57161"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	]
+}
