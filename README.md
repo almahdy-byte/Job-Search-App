@@ -29,10 +29,11 @@ This is the backend service for a **Job Search Application** that connects **job
 - Apply to jobs with uploaded CVs
 - Chat with HRs in real-time
 
-### 🧑‍💼 HRs
+### 🧑‍💼 HRs / Companies
 - Create and manage job postings
-- View applicants and their CVs
-- Start conversations with candidates
+- View all applications submitted for their jobs
+- **Download application data as an Excel file**
+- Chat with candidates in real-time
 
 ### 👮 Admin Panel
 - Manage all users and job listings
