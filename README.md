@@ -81,6 +81,35 @@ cd job-search-backend
 npm install
 
 # 3. Create a .env file based on .env.example
+# Server
+PORT=3000
+
+# Database
+DB_URI=mongodb://localhost:27017/jobSearchApp
+
+# Hashing & Encryption
+HASH_ROUNDS=8
+ENCRYPTION_KEY=your_encryption_key_here
+
+# JWT Token Signatures
+ADMIN_ACCESS_TOKEN=your_admin_access_token_secret
+ADMIN_REFRESH_TOKEN=your_admin_refresh_token_secret
+
+USER_ACCESS_TOKEN=your_user_access_token_secret
+USER_REFRESH_TOKEN=your_user_refresh_token_secret
+
+# Cloudinary
+CLOUD_NAME=your_cloudinary_name
+API_KEY=your_cloudinary_api_key
+API_SECRET=your_cloudinary_api_secret
+
+# Google OAuth
+CLIENT_ID=your_google_oauth_client_id
+
+# Email Credentials (for sending emails)
+EMAIL=your_email@example.com
+PASSWORD=your_email_app_password
+
 
 # 4. Start the development server
 npm run dev
