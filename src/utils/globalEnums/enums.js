@@ -35,6 +35,7 @@ export const subjects={
     RESET_PASSWORD:"Reset Password",
     ACCEPT_APP :'ACCEPTED',
     REJECT_APP :'REJECTED',
+    RESET_EMAIL :'Reset Email'
 }
 Object.freeze(subjects);
 

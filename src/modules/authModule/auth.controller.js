@@ -51,7 +51,7 @@ export const confirmEmail = async(req , res ,next)=>{
     // check if the user is already exist
     const user = await userModel.findOne({email});
     if(!user) 
-         return next(new Error('user not found' , {cause:StatusCodes.NOT_FOUND}));
+        return next(new Error('user not found' , {cause:StatusCodes.NOT_FOUND}));
     // get confirm email OTP
     const confirmEmailOTP = user.OTP.filter(otp => otp.OTPType === OTPTypes.CONFIRM_EMAIL) ;
     // check if the OTP is not found
@@ -86,7 +86,7 @@ export const logIn = async(req , res , next)=>{
 
 // refresh token
 export const refreshToken =async(req , res, next)=>{
-    const {refreshToken} = req.body;   
+    const {refreshToken} = req.body;  
     const decodedData = await decodeToken(refreshToken , tokenTypes.REFRESH , next);
     if (!decodedData || !decodedData.user) {
         return next(new Error("Invalid refresh token", { cause: StatusCodes.UNAUTHORIZED }));
@@ -112,7 +112,7 @@ export const resetPassword =async(req , res , next)=>{
     })
     // save user
     await user.save();
-    return res.status(StatusCodes.ACCEPTED).json({success:true ,user})
+    return res.status(StatusCodes.ACCEPTED).json({success:true ,OTP : user.OTP})
 }
 
 // change password
@@ -164,4 +164,50 @@ export const socialLogin = async(req , res , next)=>{
     }
     const {accessToken , refreshToken} = await createToken(user.role , {id : user._id ,changeCredentialTime : user.changeCredentialTime});
     return res.status(StatusCodes.ACCEPTED).json({success:true,accessToken , refreshToken })
+}
+
+export const getProfile = async(req , res , next)=>{
+    const user = req.user;
+    return res.status(StatusCodes.ACCEPTED).json({success:true , user})
+}
+
+export const resetEmail = async(req , res , next)=>{
+    const user = req.user;
+    const {tempEmail} = req.body;
+    user.tempEmail = tempEmail;
+    // generate reset email OTP
+    const resetEmailOTP = await code();
+    // generate reset email html
+    const html = template(resetEmailOTP , `${user.firstName} ${user.lastName} ` , subjects.RESET_EMAIL);
+    // emit reset email event
+    emailEvent.emit('resetEmail' , ({to:user.tempEmail , html}));
+    // add reset email OTP to user OTP
+    user.OTP.push({
+                OTPType:OTPTypes.RESET_EMAIL,
+                code:hash(resetEmailOTP)
+    })
+    // save user
+    await user.save();
+    return res.status(StatusCodes.ACCEPTED).json({success:true ,tempEmail : user.tempEmail , OTP : user.OTP})
+}
+
+export const changeEmail = async(req , res , next)=>{
+    const {code} = req.body;
+    const user = req.user;
+    const resetEmailOTP = user.OTP.filter(otp => otp.OTPType === OTPTypes.RESET_EMAIL);
+    if(!resetEmailOTP.length)
+         return next(new Error('OTP not found' , {cause:StatusCodes.NOT_FOUND}));
+    // check if the OTP is incorrect
+    if(!compareOTP(code , resetEmailOTP ))
+        return next(new Error('in-correct code' , {cause:StatusCodes.BAD_REQUEST}));
+    // update user email
+    user.email = user.tempEmail;
+    user.tempEmail = undefined;
+    // remove reset email OTP
+    user.OTP = user.OTP.filter(otp => otp.OTPType !== OTPTypes.RESET_EMAIL && !compare(code , otp.code));
+    // save user
+    // await userModel.updateOne({_id:user._id} , {email : user.email , $unset:{tempEmail:""}},{new:true});
+    await user.save();
+    
+    return res.status(StatusCodes.ACCEPTED).json({message:'email changed' , user })
 }

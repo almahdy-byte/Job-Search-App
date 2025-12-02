@@ -3,7 +3,6 @@ import { StatusCodes } from "http-status-codes";
 import { DBConnection } from "./DB/connection.js";
 import authRouter from "./modules/authModule/auth.router.js";
 import { globalErrorHandler } from "./utils/errorHandlers/globalErrorHandler.js";
-import dotenv from 'dotenv';
 import userRouter from "./modules/userModule/user.router.js";
 import adminRouter from "./modules/adminModule/admin.router.js";
 import {schema} from './graphql.js'
@@ -49,7 +48,7 @@ app.use('/graphql' , createHandler({schema ,
 app.use('/chat' , chatRouter)
 app.get('/' ,
         (req,res,next)=>res.json({message:"job search main route"})
-       )
+    )
 app.use('*' ,(req ,res ,next)=>{
     return res.status(StatusCodes.NOT_FOUND).json({message : 'page not found'})
 })

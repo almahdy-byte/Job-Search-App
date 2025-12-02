@@ -39,6 +39,10 @@ emailEvent.on('resetPassword',async({to , subject = subjects.RESET_PASSWORD , te
   await sendEmail({to , subject , text , html});
   
   })
+emailEvent.on('resetEmail',async({to , subject = subjects.RESET_EMAIL , text , html})=>{
+  await sendEmail({to , subject , text , html});
+  
+  })
   emailEvent.on('acceptApp',async({to , subject = subjects.ACCEPT_APP , text , html})=>{
     await sendEmail({to , subject , text , html});
     

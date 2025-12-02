@@ -12,7 +12,7 @@ export const auth =()=>{
         }
         const {user} = decodedData
         if (!user) throw new Error('user not found', { cause: StatusCodes.NOT_FOUND });
-        req.user = user;
+        req.user = user;        
         next()
     }))
 }

@@ -17,22 +17,10 @@ export const decodeToken = async(authorization , tokenType =tokenTypes.ACCESS  ,
         if(!Object.values(Roles).includes(barer))
             return next(new Error('in-valid barer key' , {cause:StatusCodes.BAD_REQUEST}));
 
-        let accessSignature
-        let refreshSignature
-        switch (barer) {
-            case Roles.USER:
-                accessSignature = process.env.USER_ACCESS_TOKEN;
-                refreshSignature = process.env.USER_REFRESH_TOKEN
-                break;
-            case Roles.ADMIN:
-                accessSignature = process.env.ADMIN_ACCESS_TOKEN;
-                refreshSignature = process.env.ADMIN_REFRESH_TOKEN;
-                break;
-            default:
-                break;
-        }
+        const accessSignature = process.env[`${barer.toUpperCase()}_ACCESS_TOKEN`]; 
+        const refreshSignature = process.env[`${barer.toUpperCase()}_REFRESH_TOKEN`];
         
-        let signature = tokenType == tokenTypes.ACCESS ? accessSignature : refreshSignature;
+        const signature = tokenType == tokenTypes.ACCESS ? accessSignature : refreshSignature;
         if (!signature) 
             return next(new Error('Token signature is missing'));
         

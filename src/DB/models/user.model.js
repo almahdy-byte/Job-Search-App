@@ -113,6 +113,9 @@ const userSchema = new Schema({
     isOwner:{
         type:Boolean,
         default : false
+    },
+    tempEmail:{
+        type:String,
     }
 },{
     toJSON:{virtuals : true , getters : true},
