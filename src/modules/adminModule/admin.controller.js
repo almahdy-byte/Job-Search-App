@@ -5,6 +5,7 @@ import { companyModel } from "../../DB/models/company.model.js";
 // ban or unban user        
 export const banOrUnBanUser =async(req , res , next)=>{
     const {userId} = req.params;
+    
     // check if the target user is not found
     const targetUser = await userModel.findOne({
         _id: userId,

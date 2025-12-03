@@ -10,14 +10,14 @@ import { asyncErrorHandler } from "../../utils/errorHandlers/asyncErrorHandler.j
 const router = Router();
 
 
-router.post('/ban-unban-user/:userId' ,
+router.patch('/ban-unban-user/:userId' ,
     auth(),
     allowTo(Roles.ADMIN),
     validation(banOrUnBanUserValidation),
     asyncErrorHandler(adminServices.banOrUnBanUser)
 )
 
-router.post('/ban-unban-company/:companyId' ,
+router.patch('/ban-unban-company/:companyId' ,
     auth(),
     allowTo(Roles.ADMIN),
     validation(banOrUnBanCompanyValidation),
