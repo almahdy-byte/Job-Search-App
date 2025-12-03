@@ -119,7 +119,7 @@ export const uploadCovePic = async(req , res ,next)=>{
 export const deleteProfilePic = async(req , res ,next)=>{
     const user = req.user
     // check if the profile picture is not found
-    if(!Object.values(user.profilePic).length)
+    if(!user.profilePic || !user.profilePic.public_id || !user.profilePic.secure_url)
          return next(new Error('profile picture not found' ,{cause:StatusCodes.NOT_FOUND}));
     
     // delete profile picture from cloudinary
@@ -138,7 +138,7 @@ export const deleteProfilePic = async(req , res ,next)=>{
 export const deleteCoverPic = async(req , res ,next)=>{
     const user = req.user
     // check if the cover picture is not found
-    if(!Object.values(user.coverPic).length) 
+    if(!user.coverPic || !user.coverPic.public_id || !user.coverPic.secure_url) 
         return next(new Error('profile picture not found' ,{cause:StatusCodes.NOT_FOUND}));
     // delete cover picture from cloudinary
     await cloudinary.uploader.destroy(user.coverPic.public_id);

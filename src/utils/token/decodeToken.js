@@ -20,6 +20,7 @@ export const decodeToken = async(authorization , tokenType =tokenTypes.ACCESS  ,
         const accessSignature = process.env[`${barer.toUpperCase()}_ACCESS_TOKEN`]; 
         const refreshSignature = process.env[`${barer.toUpperCase()}_REFRESH_TOKEN`];
         
+        
         const signature = tokenType == tokenTypes.ACCESS ? accessSignature : refreshSignature;
         if (!signature) 
             return next(new Error('Token signature is missing'));

@@ -1,11 +1,15 @@
-import { StatusCodes } from "http-status-codes"
+import { StatusCodes } from "http-status-codes";
 
-export const asyncErrorHandler =(fn)=>{
-    return((req , res , next)=>{
-            fn(req , res ,next)
-            .catch((error) => {
-            return next(new Error (error + " " || "something went wrong" , {cause:StatusCodes.INTERNAL_SERVER_ERROR}))
-        })
-    })}
-
-
+export const asyncErrorHandler = (fn) => {
+  return async (req, res, next) => {
+    try {
+      await fn(req, res, next);
+    } catch (error) {
+      next({
+        message: error?.message || "Something went wrong",
+        statusCode: error?.statusCode || StatusCodes.INTERNAL_SERVER_ERROR,
+        stack: error.stack
+      });
+    }
+  };
+};

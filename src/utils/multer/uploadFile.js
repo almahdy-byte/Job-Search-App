@@ -8,6 +8,7 @@ import fs from 'fs'
 export const uploadFile = (type ) => {    
     const storage = multer.diskStorage({
     });
+    
     const fileFilter = (req , file , cb)=>{
         if(type.includes(file.mimetype)){
             return cb(null , true)
@@ -15,6 +16,7 @@ export const uploadFile = (type ) => {
         return cb(new Error('invalid type' ,{cause:StatusCodes.BAD_REQUEST}) , false);
     }
 
-    const upload = multer({ storage , fileFilter });    
+    const upload = multer({ storage , fileFilter });   
+     
     return upload;
 };

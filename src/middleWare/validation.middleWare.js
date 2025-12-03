@@ -47,7 +47,11 @@ export const generalValidation = {
     description:Joi.string(),
     industry : Joi.string(),
     numberOfEmployees : Joi.number().min(11).max(20),
-    address:Joi.string(),
+    address:Joi.object({
+        city : Joi.string().required(),
+        country : Joi.string().required(), 
+        street : Joi.string().required()
+    }),
     jobTitle:Joi.string(),
     jobDescription : Joi.string(),
     jobLocation:Joi.string().valid(...Object.values(JobLocation)),

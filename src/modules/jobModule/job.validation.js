@@ -54,3 +54,6 @@ export const mainJobValidationSchema = Joi.object({
     companyName : generalValidation.companyName,
     jobId : generalValidation.id,
 })
+export const findRelatedJobsValidationSchema = Joi.object({
+    companyName : generalValidation.companyName,
+}).required();

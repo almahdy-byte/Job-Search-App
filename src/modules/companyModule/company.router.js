@@ -25,7 +25,7 @@ router.get('/:companyName' ,
     validation(getCompanyWithNameValidationSchema),
     asyncErrorHandler(companyServices.getCompanyWithName)
 )
-router.get('/get-company-relatedJobs/:companyId' ,
+router.get('/related-jobs/:companyId' ,
     auth(),
     validation(getCompanyAndRElatedJobsValidationSchema),
     asyncErrorHandler(companyServices.getCompanyAndRelatedJobs)
@@ -58,6 +58,7 @@ router.delete('/:companyId' ,
     validation(companyIdValidationSchema),
     asyncErrorHandler(companyServices.softDeleteCompany)
 )
+
 export default router;
 
 //bonus end point

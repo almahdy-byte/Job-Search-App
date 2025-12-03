@@ -17,3 +17,5 @@ export const updatePasswordValidationSchema = Joi.object({
 export const getAndDeleteUserValidationSchema = Joi.object({
     userId : generalValidation.id.required()
 })
+export const profileValidationSchema = Joi.object({})
+export const uploadPictureValidationSchema = Joi.object({})

@@ -98,10 +98,12 @@ export const getApplications = async(req , res , next)=>{
 }
 
 export const applyJob = async(req , res , next)=>{
+    
     const file = req.file;
     if (!file) {
         return next(new Error('CV file is required', { cause: StatusCodes.BAD_REQUEST }));
     }
+    
     
     const user = req.user;
     const {jobId} = req.params;
@@ -147,6 +149,7 @@ export const acceptApp = async(req , res , next)=>{
     
     if(!app)
         return next(new Error('application not found' , {cause : StatusCodes.NOT_FOUND}));
+    
     if(!checkHR(company.HRs , user._id))
         return next(new Error('you are not allowed to accept this application' , {cause : StatusCodes.BAD_REQUEST}));
     app.status = 'ACCEPTED';

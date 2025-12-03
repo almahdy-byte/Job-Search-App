@@ -13,7 +13,9 @@ const companySchema = new Schema({
         type:String,
     },
     address:{
-        type:String
+        city : String,
+        country : String,
+        street : String
     },
     numberOfEmployees:{
         type:Number,
